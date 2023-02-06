@@ -7,14 +7,17 @@ class View
     author = gets.chomp
     puts 'Quel est le contenu du gossip ?'
     content = gets.chomp
-    params = { content: content, author: author }
+    { author: author, content: content }
   end
 
   def index_gossips(gossips)
-    potin = 1
-    gossips.each do |gossip|
-      puts "#{potin} - #{gossip}"
-      potin += 1
+    gossips.each_with_index do |gossip, index|
+      puts "Potin n°#{index} - D'après #{gossip.author}, #{gossip.content}"
     end
+  end
+
+  def delete_gossip
+    puts 'Quel potin souhaites tu effacer ?'
+    gets.chomp.to_i
   end
 end

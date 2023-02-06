@@ -16,7 +16,12 @@ class Controller
   end
 
   def index_gossips
-    all_gossips = Gossip.all
-    @view.index_gossips(all_gossips)
+    params = Gossip.all
+    @view.index_gossips(params)
+  end
+
+  def delete_gossip
+    choice_delete = @view.delete_gossip
+    Gossip.delete(choice_delete)
   end
 end

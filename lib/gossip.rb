@@ -10,16 +10,27 @@ class Gossip
   end
 
   def save
-    data = File.open('./db/gossip.csv', 'a')
-    data.puts "#{@author}, #{content}"
-    data.close
+    CSV.open('./db/gossip.csv', 'a') do |csv|
+      csv << [@author, @content]
+    end
   end
 
   def self.all
     all_gossips = []
-    CSV.open('./db/gossip.csv', 'r').each do |csv|
-      all_gossips << csv
+    CSV.foreach('./db/gossip.csv') do |gossip|
+      gossip_temp = Gossip.new(gossip[0], gossip[1])
+      all_gossips << gossip_temp
     end
     all_gossips
+  end
+
+  def self.delete(item)
+    gossips = CSV.read('./db/gossip.csv')
+    gossips.delete_at(item)
+    CSV.open('db/gossip.csv', 'w') do |csv|
+      gossips.each do |gossip|
+        csv << gossip
+      end
+    end
   end
 end
